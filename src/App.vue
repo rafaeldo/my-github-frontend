@@ -1,31 +1,42 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <v-app class="white">
+      <v-container class="ma-0 pa-0" fluid>
+        <v-layout class="my-container ma-0" row wrap align-center>
+          <!-- Loading -->
+          <v-flex
+            v-if="loadingState"
+            class="text-xs-center"
+            xs12>
+            <Loading/>
+          </v-flex>
+          <!-- Content -->
+          <v-flex v-else xs12>
+            <router-view/>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-app>
   </div>
 </template>
 
+<script>
+import Loading from '@/components/SharedComps/Loading/Loading'
+
+export default {
+  components: {
+    Loading
+  },
+  data () {
+    return {
+      loadingState: true
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.my-container {
+  height: 100vh;
 }
 </style>
