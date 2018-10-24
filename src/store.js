@@ -10,7 +10,9 @@ export default new Vuex.Store({
     pageNumber: 0,
     since: null,
     loadingApp: true,
-    loadingUserProfile: true
+    loadingUserProfile: true,
+    userProfile: {},
+    userRepos: []
   },
   mutations: {
     setSince (state, payload) {
@@ -33,6 +35,18 @@ export default new Vuex.Store({
         state.pageNumber = state.pageNumber - 1
       }
       return
+    },
+    setUserProfile (state, payload) {
+      state.userProfile = payload
+    },
+    setUserRepos (state, payload) {
+      state.userRepos = payload
+    },
+    cleanUserProfile (state) {
+      state.userProfile = {}
+    },
+    cleanUserRepos (state) {
+      state.userRepos = []
     }
   },
   actions: {
@@ -51,6 +65,21 @@ export default new Vuex.Store({
           commit('setSince', response.headers.next)
           commit('addPage', response.data)
           commit('setLoadingApp', false)
+        })
+        .catch(e => console.log(e))
+    },
+    getUserProfileAndRepos ({commit}, payload) {
+      commit('setLoadingUserProfile', true)
+      payload = 'rafaextradev'
+      const userProfile = axios.get('http://localhost:3000/users/' + payload)
+      const userRepos = axios.get('http://localhost:3000/users/' + payload + '/repos')
+
+      const promisesArray = [userProfile, userRepos]
+      Promise.all(promisesArray)
+        .then(response => {
+          commit('setUserProfile', response[0].data)
+          commit('setUserRepos', response[1].data)
+          commit('setLoadingUserProfile', false)
         })
         .catch(e => console.log(e))
     }
@@ -73,6 +102,12 @@ export default new Vuex.Store({
     },
     lastPage (state) {
       return state.pages.length
+    },
+    userProfile (state) {
+      return state.userProfile
+    },
+    userRepos (state) {
+      return state.userRepos
     }
   }
 })

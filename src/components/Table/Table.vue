@@ -8,7 +8,7 @@
           <thead class="my-table__head">
             <tr class="my-table__row-head">
               <th class="my-table__cell-head">ID</th>
-              <th class="my-table__cell-head">Login</th>
+              <th class="my-table__cell-head">Username</th>
               <th class="my-table__cell-head"></th>
             </tr>
           </thead>
@@ -22,7 +22,7 @@
               <td class="my-table__cell-body">{{ item.login }}</td>
               <td class="my-table__cell-body text-xs-center">
                 <v-btn
-                  @click="emitUserId(item)"
+                  @click="emitUsername(item)"
                   small
                   color="blue"
                   flat>
@@ -102,14 +102,14 @@ export default {
       window.scrollTo(0, 0)
       this.$store.commit('decreasePageNumber')
     },
-    emitUserId (user) {
-      this.$emit('userId', user.id)
+    emitUsername (user) {
+      this.$emit('username', user.login)
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .my-table
   &__wrapper
     margin 0 10px

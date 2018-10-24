@@ -8,14 +8,14 @@
     <!-- List of Users -->
     <v-flex xs12 sm8 offset-sm2 md6 offset-md3>
       <Table
-        @userId="catchUserId" />
+        @username="catchUsername" />
     </v-flex>
     <!-- User Profile -->
     <v-dialog
       width="500"
       v-model="modal">
       <UserProfile
-        :userId="userId"
+        :username="username"
         @closeTheModal="closeModal"
         v-if="modal"/>
     </v-dialog>
@@ -37,20 +37,29 @@ export default {
   data () {
     return {
       modal: false,
-      userId: null
+      username: null
     }
   },
   methods: {
     closeModal () {
-      this.userId = null
+      this.username = null
       this.modal = false
     },
-    catchUserId (id) {
-      this.userId = id
+    catchUsername (username) {
+      this.username = username
       this.openUserProfile()
     },
     openUserProfile () {
       this.modal = true
+    }
+  },
+  watch: {
+    modal (newValue) {
+      if (newValue === false) {
+        this.username = null
+        this.$store.commit('cleanUserProfile')
+        this.$store.commit('cleanUserRepos')
+      }
     }
   }
 }
