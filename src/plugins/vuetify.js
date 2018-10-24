@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuetify, {VApp, VBtn, VIcon} from 'vuetify/lib'
+import Vuetify, {VApp, VBtn, VIcon, VDialog} from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
 
 Vue.use(Vuetify, {
@@ -7,6 +7,7 @@ Vue.use(Vuetify, {
   components: {
     VApp,
     VBtn,
-    VIcon
+    VIcon,
+    VDialog
   }
 })

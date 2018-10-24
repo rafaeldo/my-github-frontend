@@ -21,7 +21,13 @@
               <td class="my-table__cell-body">{{ item.id }}</td>
               <td class="my-table__cell-body">{{ item.login }}</td>
               <td class="my-table__cell-body text-xs-center">
-                <v-icon>info</v-icon>
+                <v-btn
+                  @click="emitUserId(item)"
+                  small
+                  color="blue"
+                  flat>
+                  MORE
+                </v-btn>
               </td>
             </tr>
           </tbody>
@@ -50,11 +56,17 @@
         </v-flex>
       </v-layout>
     </v-flex>
+    
   </v-layout>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      modal: false
+    }
+  },
   computed: {
     prevBtnDisabled () {
       if (this.pageNumber > 1) {
@@ -89,6 +101,9 @@ export default {
     prevPage () {
       window.scrollTo(0, 0)
       this.$store.commit('decreasePageNumber')
+    },
+    emitUserId (user) {
+      this.$emit('userId', user.id)
     }
   }
 }
