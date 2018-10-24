@@ -5,7 +5,7 @@
         <v-layout class="mx-0 my-4" row wrap>
           <!-- Loading -->
           <v-flex
-            v-if="loadingState"
+            v-if="loadingAppState"
             class="text-xs-center"
             xs12>
             <Loading />
@@ -28,8 +28,8 @@ export default {
     Loading
   },
   computed: {
-    loadingState () {
-      return this.$store.getters.loading
+    loadingAppState () {
+      return this.$store.getters.loadingApp
     }
   },
   created () {
