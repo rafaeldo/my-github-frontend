@@ -17,9 +17,10 @@ import Logo from '@/components/SharedComps/Logo/Logo'
 import Table from '@/components/Table/Table'
 
 export default {
+  name: 'Home',
   components: {
     Logo,
     Table
-  }  
+  }
 }
 </script>

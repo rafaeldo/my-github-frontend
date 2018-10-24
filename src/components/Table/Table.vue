@@ -1,46 +1,98 @@
 <template>
-  <div class="my-table__wrapper">
-    <table class="my-table__table">
-      <thead class="my-table__head">
-        <tr class="my-table__row-head">
-          <th class="my-table__cell-head">ID</th>
-          <th class="my-table__cell-head">Login</th>
-          <th class="my-table__cell-head"></th>
-        </tr>
-      </thead>
-      <tbody class="my-table__body">
-        <tr class="my-table__row-body">
-          <td class="my-table__cell-body">100</td>
-          <td class="my-table__cell-body">extraxt</td>
-          <td class="my-table__cell-body text-xs-center">
-            <v-icon>subject</v-icon>
-          </td>
-        </tr>
-        <tr class="my-table__row-body">
-          <td class="my-table__cell-body">100</td>
-          <td class="my-table__cell-body">extraxt</td>
-          <td class="my-table__cell-body text-xs-center">
-            <v-icon>subject</v-icon>
-          </td>
-        </tr>
-        <tr class="my-table__row-body">
-          <td class="my-table__cell-body">100</td>
-          <td class="my-table__cell-body">extraxt</td>
-          <td class="my-table__cell-body text-xs-center">
-            <v-icon>subject</v-icon>
-          </td>
-        </tr>
-        <tr class="my-table__row-body">
-          <td class="my-table__cell-body">100</td>
-          <td class="my-table__cell-body">extraxt</td>
-          <td class="my-table__cell-body text-xs-center">
-            <v-icon>subject</v-icon>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <v-layout row wrap>
+    <!-- Table -->
+    <v-flex xs12>
+      <div class="my-table__wrapper">
+        <table class="my-table__table">
+          <!-- Table Head -->
+          <thead class="my-table__head">
+            <tr class="my-table__row-head">
+              <th class="my-table__cell-head">ID</th>
+              <th class="my-table__cell-head">Login</th>
+              <th class="my-table__cell-head"></th>
+            </tr>
+          </thead>
+          <!-- Table Body -->
+          <tbody class="my-table__body">
+            <tr
+              v-for="(item, i) in pageSelected"
+              :key="i"
+              class="my-table__row-body">
+              <td class="my-table__cell-body">{{ item.id }}</td>
+              <td class="my-table__cell-body">{{ item.login }}</td>
+              <td class="my-table__cell-body text-xs-center">
+                <v-icon>info</v-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </v-flex>
+    <!-- Prev/Next Links -->
+    <v-flex class="mt-2" xs12>
+      <v-layout row wrap>
+        <!-- Prev -->
+        <v-flex class="text-xs-left" xs6>
+          <v-btn
+            @click="prevPage"
+            :disabled="prevBtnDisabled"
+            flat>
+            <v-icon>navigate_before</v-icon>
+          </v-btn>
+        </v-flex>
+        <!-- Next -->
+        <v-flex class="text-xs-right" xs6>
+          <v-btn
+            @click="nextPage"
+            flat>
+            <v-icon>navigate_next</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-flex>
+  </v-layout>
 </template>
+
+<script>
+export default {
+  computed: {
+    prevBtnDisabled () {
+      if (this.pageNumber > 1) {
+        return false
+      }
+
+      return true
+    },
+    pageNumber () {
+      return this.$store.getters.pageNumber
+    },
+    pageSelected () {
+      return this.$store.getters.pages[this.pageNumber - 1]
+    },
+    pages () {
+      return this.$store.getters.pages
+    }
+  },
+  methods: {
+    nextPage () {
+      const pageNumber = this.pageNumber
+      const nextPage = pageNumber + 1
+
+      if (this.pages[nextPage - 1]) {
+        this.$store.commit('increasePageNumber')
+        window.scrollTo(0, 0)
+        return
+      }
+
+      this.$store.dispatch('getUsersGithub')
+    },
+    prevPage () {
+      window.scrollTo(0, 0)
+      this.$store.commit('decreasePageNumber')
+    }
+  }
+}
+</script>
 
 <style lang="stylus">
 .my-table

@@ -2,13 +2,13 @@
   <div id="app">
     <v-app class="white">
       <v-container class="ma-0 pa-0" fluid>
-        <v-layout class="my-container ma-0" row wrap align-center>
+        <v-layout class="mx-0 my-4" row wrap>
           <!-- Loading -->
           <v-flex
             v-if="loadingState"
             class="text-xs-center"
             xs12>
-            <Loading/>
+            <Loading />
           </v-flex>
           <!-- Content -->
           <v-flex v-else xs12>
@@ -27,16 +27,13 @@ export default {
   components: {
     Loading
   },
-  data () {
-    return {
-      loadingState: false
+  computed: {
+    loadingState () {
+      return this.$store.getters.loading
     }
+  },
+  created () {
+    this.$store.dispatch('getUsersGithub')
   }
 }
 </script>
-
-<style>
-.my-container {
-  height: 100vh;
-}
-</style>
