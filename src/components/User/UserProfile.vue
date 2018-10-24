@@ -12,29 +12,30 @@
       <Loading v-if="loadingUserProfile"/>
       <!-- User Profile -->
       <v-layout v-else row wrap>
+        <!-- Basic Info -->
         <v-flex xs12>
-          <table>
+          <table class="my-table">
             <tbody class="my-table__body">
               <tr class="my-table__row-body">
                 <td class="my-table__cell-body"><b>ID:</b></td>
                 <td class="my-table__cell-body">{{ userProfile.id }}</td>
               </tr>
               <tr class="my-table__row-body">
-                <td class="my-table__cell-body"><b>USERNAME:</b></td>
+                <td class="my-table__cell-body"><b>Username:</b></td>
                 <td class="my-table__cell-body">{{ userProfile.login }}</td>
               </tr>
               <tr class="my-table__row-body">
-                <td class="my-table__cell-body"><b>CREATED AT:</b></td>
+                <td class="my-table__cell-body"><b>Created At:</b></td>
                 <td class="my-table__cell-body">{{ createdAt }}</td>
-              </tr>
-              <tr class="my-table__row-body">
-                <td class="my-table__cell-body"><b>PROFILE LINK:</b></td>
-                <td class="my-table__cell-body">
-                  <a href="">{{ userProfile.html_url }}</a>
-                </td>
               </tr>
             </tbody>
           </table>
+        </v-flex>
+        <!-- Repos -->
+        <v-flex xs12>
+          <UserRepos
+            v-if="userRepos.length > 0"
+            :repos="userRepos"/>
         </v-flex>
       </v-layout>
     </v-card-text>
@@ -43,11 +44,20 @@
 
     <!-- Actions -->
     <v-card-actions>
+      <v-btn
+        @click="visitGithub"
+        class="blue white--text"
+        :disabled="loadingUserProfile"
+        small
+        flat>
+        Github Page
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn
         :disabled="loadingUserProfile"
         color="primary"
         flat
+        small
         @click="closeModal">
         Close
       </v-btn>
@@ -57,10 +67,12 @@
 
 <script>
 import Loading from '@/components/SharedComps/Loading/Loading'
+import UserRepos from '@/components/User/UserRepos'
 
 export default {
   components: {
-    Loading
+    Loading,
+    UserRepos
   },
   props: ['username'],
   computed: {
@@ -81,6 +93,10 @@ export default {
   methods: {
     closeModal () {
       this.$emit('closeTheModal')
+    },
+    visitGithub () {
+      const link = this.userProfile.html_url
+      window.open(link,'_blank')
     }
   },
   created () {
@@ -91,8 +107,9 @@ export default {
 
 <style lang="stylus" scoped>
 .my-table
+  width 100%
+
   &__table
-    width 100%
     border-collapse collapse 
 
   &__cell-body
@@ -100,4 +117,5 @@ export default {
     color #808080
     line-height 1.4
     padding 16px
+    text-align left
 </style>

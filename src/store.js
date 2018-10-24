@@ -70,7 +70,7 @@ export default new Vuex.Store({
     },
     getUserProfileAndRepos ({commit}, payload) {
       commit('setLoadingUserProfile', true)
-      payload = 'rafaextradev'
+      
       const userProfile = axios.get('http://localhost:3000/users/' + payload)
       const userRepos = axios.get('http://localhost:3000/users/' + payload + '/repos')
 
