@@ -58,7 +58,7 @@ export default new Vuex.Store({
         since = getters.since
       }
 
-      const result = axios.get('http://localhost:3000/users' + since)
+      const result = axios.get(process.env.VUE_APP_MY_API + since)
       result
         .then(response => {
           commit('increasePageNumber')
@@ -71,8 +71,8 @@ export default new Vuex.Store({
     getUserProfileAndRepos ({commit}, payload) {
       commit('setLoadingUserProfile', true)
       
-      const userProfile = axios.get('http://localhost:3000/users/' + payload)
-      const userRepos = axios.get('http://localhost:3000/users/' + payload + '/repos')
+      const userProfile = axios.get(process.env.VUE_APP_MY_API + '/' + payload)
+      const userRepos = axios.get(process.env.VUE_APP_MY_API + '/' + payload + '/repos')
 
       const promisesArray = [userProfile, userRepos]
       Promise.all(promisesArray)
