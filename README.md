@@ -1,6 +1,6 @@
 # My Github App
 
-A Vue.js (Single Page App) that works with a custom Github Proxy API (https://github.com/rafaextradev/github-proxy-api).
+A Vue.js (Single Page App) that works with a custom Github Proxy API (https://github.com/rafaeldo/github-proxy-api).
 You can visit a demo at: https://my-github-frontend.firebaseapp.com/
 
 ## Getting Started
